@@ -1,0 +1,17 @@
+{
+  "repo": "drift-parse-ini-lab",
+  "thresholds": {
+    "signal": 2,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 4,
+    "ship": 168,
+    "watch": 97
+  },
+  "terms": [
+    "token drift",
+    "grammar width",
+    "label quality",
+    "error locality"
+  ]
+}
