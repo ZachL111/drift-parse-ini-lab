@@ -1,0 +1,73 @@
+{
+  "repo": "drift-parse-ini-lab",
+  "language": "Ruby",
+  "category": "Parsers",
+  "goal": "Implement a Ruby parsers project for ini event replay, using fixture event logs and golden state snapshots.",
+  "review_model": {
+    "terms": [
+      "token drift",
+      "grammar width",
+      "label quality",
+      "error locality"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "token drift",
+      "signal": 64,
+      "slack": 44,
+      "drag": 18,
+      "confidence": 86,
+      "score": 204,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "grammar width",
+      "signal": 66,
+      "slack": 45,
+      "drag": 15,
+      "confidence": 80,
+      "score": 212,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "label quality",
+      "signal": 79,
+      "slack": 45,
+      "drag": 29,
+      "confidence": 66,
+      "score": 182,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "error locality",
+      "signal": 68,
+      "slack": 32,
+      "drag": 30,
+      "confidence": 75,
+      "score": 153,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "token drift",
+      "signal": 90,
+      "slack": 51,
+      "drag": 21,
+      "confidence": 90,
+      "score": 258,
+      "lane": "ship"
+    }
+  ]
+}

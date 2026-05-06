@@ -1,44 +1,29 @@
 # drift-parse-ini-lab
 
-`drift-parse-ini-lab` is a Ruby project for Parsers. It turns implement a Ruby parsers project for ini event replay, using fixture event logs and golden state snapshots into a small local model with readable fixtures and a direct verification command.
+`drift-parse-ini-lab` keeps a focused Ruby implementation around parsers. The project goal is to implement a Ruby parsers project for ini event replay, using fixture event logs and golden state snapshots.
 
-## Reading Drift Parse Ini Lab
+## Project Rationale
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## Design Sketch
+## Drift Parse Ini Lab Review Notes
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The Ruby code keeps the module small and leans on Minitest for direct fixture checks.
+For a quick review, compare `token drift` with `error locality` before reading the middle cases.
 
-## Purpose
+## Feature Set
 
-This is not a wrapper around a service. It is a self-contained project that shows how the model behaves when demand, capacity, latency, risk, and weight move in different directions.
+- `fixtures/domain_review.csv` adds cases for token drift and grammar width.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/drift-parse-ini-walkthrough.md` walks through the case spread.
+- The Ruby code includes a review path for `token drift` and `error locality`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## What It Does
+## Architecture
 
-- Uses fixture data to keep error labels changes visible in code review.
-- Includes extended examples for grammar boundaries, including `recovery` and `degraded`.
-- Documents golden examples tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `token drift`, `grammar width`, `label quality`, and `error locality`.
 
-## Fixture Notes
-
-`recovery` is the first example I would inspect because it lands on the `accept` path with a score of 227. The broader file also keeps `degraded` at -32 and `recovery` at 227, which gives the model a useful low-to-high spread.
-
-## Files Worth Reading
-
-- `lib`: library code
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Setup
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
+The Ruby code keeps the review rule close to the tests.
 
 ## Usage
 
@@ -46,23 +31,10 @@ Clone the repository, enter the directory, and run the verifier. No database ser
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Test Command
 
-## Verification
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Next Improvements
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Limits
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Next Directions
-
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Add one more parsers fixture that focuses on a malformed or borderline input.
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.
